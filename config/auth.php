@@ -36,9 +36,10 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
+        'api' => [
+            'driver' => 'token',
             'provider' => 'users',
+            'hash' => false,
         ],
     ],
 
@@ -111,5 +112,19 @@ return [
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tokens expiration time
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the amount of minutes before
+    | refresh and access token expires
+    |
+    */
+    'tokens' => [
+        'access_token_expiration' => env('ACCESS_TOKEN_EXPIRATION', 15),
+        'refresh_token_expiration' => env('REFRESH_TOKEN_EXPIRATION', 43200),
+    ],
 
 ];
