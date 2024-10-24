@@ -30,7 +30,7 @@
 <body>
     <div class="container">
         <h1>Авторизация</h1>
-        <form action="api/login" method="POST">
+        <form action="api/auth/login" method="POST">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" class="form-control" required>
@@ -42,6 +42,11 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Войти</button>
+
+            <h1> ИЛИ </h1>
+
+            <script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="AuthRecifraBot"
+            data-size="large" data-auth-url="{{ route('telegramAuthCallback') }}" data-request-access="write"></script>
         </form>
     </div>
 </body>
