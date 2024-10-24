@@ -55,7 +55,7 @@ h1 {
         <h1> Телефон - {{$user?->phone ?? 'Нет данных'}} </h1>
         <h1> Имя - {{ $user?->name ?? 'Нет данных' }} </h1>
       
-    <form action="{{ url('api/logout') }}" method="POST">
+    <form action="{{ url('api/auth/logout') }}" method="POST">
         <button type="submit" class="btn">Выйти из аккаунта</button>
     </form>
     </div>

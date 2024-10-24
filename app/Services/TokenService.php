@@ -53,7 +53,7 @@ class TokenService
         Token::where('token', hash('sha256', $token))->delete();
     }
 
-    public function updateAccessTokenWithRefresh(string $refreshToken)
+    public function updateAccessToken(string $refreshToken)
     {
         $hashedToken = hash('sha256', $refreshToken);
 
