@@ -13,7 +13,11 @@ Route::middleware([TokenAuthenticationMiddleware::class, RedirectIfAuthenticated
         return view('login');
     })->name('login');
 
+    Route::get('phone-login', function(){
+        return view('phone-login');
+    })->name('phone-login');
 });
+
 
 Route::get('user/about', function () {
     $user = Auth::guard('api')->user();

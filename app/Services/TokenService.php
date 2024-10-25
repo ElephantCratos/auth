@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\DTO\TokenDTO;
 use App\Models\Token;
 use Illuminate\Support\Str;
@@ -18,6 +20,13 @@ class TokenService
         $this->refreshTokenExpiration = config('auth.tokens.refresh_token_expiration');
     }
 
+    /**
+     * Генерирует и сохраняет access токен для  пользователя.
+     * 
+     * @param int $userId 
+     * 
+     * @return TokenDTO 
+     */
     public function generateAccessToken(int $userId) : TokenDTO   
     {
 
@@ -33,6 +42,13 @@ class TokenService
         return new TokenDTO($token, $this->accessTokenExpiration);
     }
 
+    /**
+     * Генерирует и сохраняет refresh токен для пользователя.
+     * 
+     * @param int $userId 
+     * 
+     * @return TokenDTO 
+     */
     public function generateRefreshToken(int $userId)
     {
 
@@ -48,11 +64,25 @@ class TokenService
         return new TokenDTO($token, $this->refreshTokenExpiration);
     }
 
+    /**
+     * Аннулирует токен, удаляя его из базы данных.
+     * 
+     * @param string $token 
+     * 
+     * @return void
+     */
     public function revokeToken($token)
     {
         Token::where('token', hash('sha256', $token))->delete();
     }
 
+    /**
+     * Обновляет access токен, используя действующий refresh токен.
+     * 
+     * @param string $refreshToken 
+     * 
+     * @return TokenDTO|null 
+     */
     public function updateAccessToken(string $refreshToken)
     {
         $hashedToken = hash('sha256', $refreshToken);
@@ -70,4 +100,50 @@ class TokenService
 
         return $newAccessToken;
     }
+
+    /**
+     * Получает экземпляр пользователя при помощи токена.
+     *
+     * @param string $token 
+     * 
+     */
+    public function getUserFromToken($token)
+    {
+        if (empty($token)) {
+            return null;
+        }
+
+        $tokenModel = Token::where('token', hash('sha256', $token))
+                            ->where('type', 'access')
+                            ->first();
+        
+        return $tokenModel ? $tokenModel->user : null;
+    }
+
+
+     /**
+     * Обновление access токена при помощи refresh токена, если он существует.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * 
+     */
+    public function refreshAccessTokenIfExist(Request $request): ?User
+    {
+        $refreshToken = $request->cookie('refresh_token');
+
+        if (!$refreshToken) {
+            return null;
+        }
+        
+        $newAccessToken = $this->updateAccessToken($refreshToken);
+
+        if (!$newAccessToken) {
+            return null;
+        }
+
+        cookie()->queue('access_token', $newAccessToken->token, $newAccessToken->expires_at, '/', null, true, true);
+        
+        return $this->getUserFromToken($newAccessToken->token);
+    }
+
 }

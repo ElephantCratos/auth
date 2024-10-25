@@ -17,13 +17,19 @@ class TelegramAuthStrategy implements AuthStrategyInterface
         $this->tokenService = $tokenService;
     }
 
-   
+    /**
+     * Логин пользователя при помощи данных Telegram.
+     * 
+     * @param Request $request 
+     * 
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {   
         $telegramData = $request->only(['id', 'first_name', 'username', 'photo_url', 'auth_date', 'hash']);
         
         if (!$this->isValidTelegramData($telegramData)) {
-            return response()->json(['error' => ''], 400);
+            return response()->json(['error' => 'Некорректные данные'], 400);
         }
 
         $user = User::where('telegram_id', $telegramData['id'])->first();
@@ -47,7 +53,13 @@ class TelegramAuthStrategy implements AuthStrategyInterface
         ]);
     }   
 
-   
+    /**
+     * Проверяет валидность данных, полученных от Telegram.
+     * 
+     * @param array $telegramData Массив данных, полученных от Telegram, включая хэш для проверки.
+     * 
+     * @return bool.
+     */
     private function isValidTelegramData($telegramData)
     {
         $check_hash = $telegramData['hash'];
