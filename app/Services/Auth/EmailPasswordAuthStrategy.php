@@ -15,12 +15,19 @@ class EmailPasswordAuthStrategy implements AuthStrategyInterface
         $this->tokenService = $tokenService;
     }
 
+    /**
+     * Логин пользователя при помощи пары почта\пароль.
+     * 
+     * @param Request $request 
+     * 
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
 
         if (!Auth::attempt($credentials)) {
-            return response()->json(['error' => 'Неправильная почта или пароль'], 401);
+            return response()->json(['error' => 'Неверная почта или пароль'], 401);
         }
 
         $user = Auth::user();

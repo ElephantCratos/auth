@@ -4,50 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-</style>
 <body>
     <div class="container">
         <h1>Авторизация</h1>
-        <form action="api/auth/login" method="POST">
+        <form action="api/auth/login" method="POST" id="loginForm">
+            @csrf
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" class="form-control" required>
             </div>
-
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
-
             <button type="submit" class="btn btn-primary">Войти</button>
-
-            <h1> ИЛИ </h1>
-
-            <script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="AuthRecifraBot"
-            data-size="large" data-auth-url="{{ route('telegramAuthCallback') }}" data-request-access="write"></script>
         </form>
+
+        <h2 style="margin: 20px 0;">ИЛИ</h2> <!-- Добавляем отступы для разделения -->
+
+        <div style="margin-bottom: 15px;">
+            <script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="AuthRecifraBot"
+                data-size="large" data-auth-url="{{ route('telegramAuthCallback') }}" data-request-access="write"></script>
+        </div>
+
+        <div>
+            <a href="{{route('phone-login')}}" class="btn " style="width: 100%;">Войти по номеру телефона</a> <!-- Стиль кнопки -->
+        </div>
     </div>
 </body>
 </html>
