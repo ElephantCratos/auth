@@ -51,33 +51,33 @@ class AuthController extends Controller
         $this->tokenService->revokeToken($refreshToken);
 
         return response()
-            ->json(['message' => 'Successfully logged out'])
+            ->json(['message' => 'Выход с аккаунта произведен успешно.'])
             ->withCookie(cookie()->forget('access_token'))
             ->withCookie(cookie()->forget('refresh_token'));
     }
 
     /**
-     * Обработка колбэка авторизации через Telegram, вызывающая логин с Telegram-стратегией.
+     *  Логин пользователя через Telegram с использованием Telegram-стратегии.
      * 
      * @param Request $request
      * 
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      *         
     */
-    public function telegramAuthCallback(Request $request)
+    public function loginWithTelegram(Request $request)
     {
         return $this->login($request->merge(['auth_type' => 'telegram']));
     }
 
     /**
-     * Обработка колбэка авторизации через номер телефона, вызывающая логин с phone-стратегией.
+     * Логин пользователя при помощи номера телефона с использованием phone-стратегии.
      * 
      * @param Request $request
      * 
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      *         
     */
-    public function phoneAuthCallback(Request $request)
+    public function loginWithPhone(Request $request)
     {
         return $this->login($request->merge(['auth_type' => 'phone']));
     }

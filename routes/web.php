@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware(TokenAuthenticationMiddleware::class);
 
 Route::middleware([TokenAuthenticationMiddleware::class, RedirectIfAuthenticated::class])->group(function () {
     Route::get('login', function () {
