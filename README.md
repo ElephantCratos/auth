@@ -1,4 +1,3 @@
-
 # auth
 Проект разработан в рамках конкурса "Студенческое Многоборье II". 
 Авторизация основана на access и refresh токенах.
@@ -42,11 +41,16 @@ composer install
 Под себя будет необходимо поменять DATABASE поля в зависимости от используемой базы данных.
 ```
 DB_CONNECTION=sqlite
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=laravel
-# DB_USERNAME=root
-# DB_PASSWORD=
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+Так же заполнить 
+```
+TELEGRAM_BOT_TOKEN = <Ваш токен телеграмм-бота>
+SMS_RU_API_ID = <Ваш API_ID с сайта sms.ru>
 ```
 Далее необходимо запустить все миграции и сидеры
 ```
