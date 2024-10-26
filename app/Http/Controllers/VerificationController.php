@@ -15,15 +15,19 @@ class VerificationController extends Controller
 
     public function sendSmsCode(Request $request)
     {
-        $user = User::where('phone',$request->phone)->first();
+        $phone = $request->phone;
+
+        $user = User::where('phone',$phone)->first();
 
         if (!$user) {
             return response()->json(['error' => 'Пользователь с данным номером не найден'], 404);
         }
-        
+
         $code = $this->smsCodeService->generateCode();
 
-        $this->smsCodeService->storeCode($request->phone, $code);
+        $this->smsCodeService->sendSmsCode($phone,$code);
+
+        $this->smsCodeService->storeCode($phone, $code);
 
         
         

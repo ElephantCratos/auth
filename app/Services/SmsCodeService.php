@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class SmsCodeService
 {
+   
+    protected $apiId;
 
+    public function __construct() {
+        $this->apiId = env("SMS_RU_API_ID");
+    }
     /**
      * Генерация случайного SMS-кода
      * 
@@ -66,7 +71,29 @@ class SmsCodeService
             ->delete();
     }
 
-    
+    /**
+     * Отправка SMS-кода по указанному номеру телефона
+     * 
+     * @param string $phone
+     * 
+     * @param string $code
+     * 
+     */
+    public function sendSmsCode(string $phone, string $code)
+    {
+
+        $parameters = [
+            'api_id' => $this->apiId,
+            'to' => $phone,
+            'msg' => $code,
+            'json' => 1
+        ];
+            $url = 'https://sms.ru/sms/send?'. http_build_query($parameters);
+
+            $response = file_get_contents($url);
+
+    }
+
 
     
 

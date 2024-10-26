@@ -11,7 +11,7 @@
     <div class="container">
         <h1>Авторизация по телефону</h1>
 
-        <form action="api/auth/phone/callback" method="POST">
+        <form action="{{route('loginWithPhone')}}" method="POST">
             <div class="form-group">
                 <label for="phone">Номер телефона</label>
                 <input type="text" id="phone" name="phone" class="form-control" required>

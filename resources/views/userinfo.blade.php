@@ -16,10 +16,27 @@
         <h1> Телефон - {{$user?->phone ?? 'Нет данных'}} </h1>
         <h1> Имя - {{ $user?->name ?? 'Нет данных' }} </h1>
       
-    <form action="{{ url('api/auth/logout') }}" method="POST">
-        <button type="submit" class="btn">Выйти из аккаунта</button>
+        <button class="btn" id="logoutButton">Выйти из аккаунта</button>
     </form>
     </div>
     
 </body>
+
+<script>
+      document.getElementById('logoutButton').addEventListener('click', function () {
+
+            fetch('/api/auth/logout', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    window.location.reload();
+                } 
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+</script>
 </html>

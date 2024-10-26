@@ -22,15 +22,15 @@
             <button type="submit" class="btn btn-primary">Войти</button>
         </form>
 
-        <h2 style="margin: 20px 0;">ИЛИ</h2> <!-- Добавляем отступы для разделения -->
+        <h2 style="margin: 20px 0;">ИЛИ</h2> 
 
         <div style="margin-bottom: 15px;">
             <script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="AuthRecifraBot"
-                data-size="large" data-auth-url="{{ route('telegramAuthCallback') }}" data-request-access="write"></script>
+                data-size="large" data-auth-url="{{ route('loginWithTelegram') }}" data-request-access="write"></script>
         </div>
 
         <div>
-            <a href="{{route('phone-login')}}" class="btn " style="width: 100%;">Войти по номеру телефона</a> <!-- Стиль кнопки -->
+            <a href="{{route('phone-login')}}" class="btn " style="width: 100%;">Войти по номеру телефона</a> 
         </div>
     </div>
 </body>
